@@ -4,15 +4,18 @@ import {ChangeEventHandler, useEffect, useState} from "react";
 import * as React from "react";
 import {ButtonLogin, ButtonRegister} from "@/components/button";
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {login} from "@/app/_api/healthService";
+import {login} from "@/api/healthService";
 import {InputPassword, InputEmail, InputContent} from "@/components/form";
+import {useRouter} from "next/navigation";
+import {LoginRequest} from "@/api/interfaces/login";
 
 export default function Login() {
 	const [isMounted, setIsMounted] = useState(false);
-	const [formValues, setFormValues] = useState<{email: string, password: string}>({
+	const [formValues, setFormValues] = useState<LoginRequest>({
 		email: "",
 		password: "",
 	});
+	const router= useRouter();
 
 	useEffect(() => {
 		setIsMounted(true);
@@ -27,9 +30,14 @@ export default function Login() {
 		}));
 	};
 
-	const handleClick = async (event: React.MouseEvent) => {
+	const loginHandleClick = async (event: React.MouseEvent) => {
 		event.preventDefault();
 		await login(formValues);
+	};
+
+	const registerHandleClick = async (event: React.MouseEvent) => {
+		event.preventDefault();
+		router.push("/auth/register");
 	};
 
 	return  (
@@ -47,8 +55,8 @@ export default function Login() {
 					</InputContent>
 				</CardContent>
 				<CardFooter className="flex flex-col space-y-1.5">
-					<ButtonLogin onClick={handleClick}/>
-					<ButtonRegister/>
+					<ButtonLogin onClick={loginHandleClick}/>
+					<ButtonRegister onClick={registerHandleClick}/>
 				</CardFooter>
 			</Card>
 		</div>);

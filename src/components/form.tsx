@@ -94,3 +94,75 @@ export function InputPassword(prop: InputProps) {
         </LabelInput>
     );
 }
+
+export function InputUsername( prop: InputProps){
+    const input = {
+        id:"username",
+        type: "username",
+        text : "Username",
+        htmlFor : "username",
+        placeholder : "exemple123",
+        onChange: prop.onChange,
+    };
+
+    return(
+        <LabelInput
+            key={input.id}
+            id={input.id}
+            htmlFor={input.htmlFor}
+            text={input.text}
+            classNameInput={style.classNameInput}
+            placeholder={input.placeholder}
+            onChange={input.onChange}>
+            {prop.children}
+        </LabelInput>
+    );
+}
+
+export function InputName( prop: InputProps){
+    const input = {
+        id:"name",
+        type: "name",
+        text : "Name",
+        htmlFor : "name",
+        placeholder : "john doe",
+        onChange: prop.onChange,
+    };
+
+    return(
+        <LabelInput
+            key={input.id}
+            id={input.id}
+            htmlFor={input.htmlFor}
+            text={input.text}
+            classNameInput={style.classNameInput}
+            placeholder={input.placeholder}
+            onChange={input.onChange}>
+            {prop.children}
+        </LabelInput>
+    );
+}
+
+export function InputPhoneNumber( prop: InputProps){
+    const input = {
+        id:"phoneNumber",
+        type: "phoneNumber",
+        text : "PhoneNumber",
+        htmlFor : "PhoneNumber",
+        placeholder : "+5511999999999",
+        onChange: prop.onChange,
+    };
+
+    return(
+        <LabelInput
+            key={input.id}
+            id={input.id}
+            htmlFor={input.htmlFor}
+            text={input.text}
+            classNameInput={style.classNameInput}
+            placeholder={input.placeholder}
+            onChange={input.onChange}>
+            {prop.children}
+        </LabelInput>
+    );
+}

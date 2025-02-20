@@ -1,4 +1,4 @@
-﻿import {UserResponse} from "@/app/_api/response/User";
+﻿import {UserResponse} from "@/api/interfaces/user";
 
 export interface LoginResponse {
     user: UserResponse,

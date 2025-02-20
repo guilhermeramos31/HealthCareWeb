@@ -1,7 +1,7 @@
 ﻿import {Button} from "@/components/ui/button";
 import * as React from "react";
 
-enum VariantTypes {
+export enum VariantTypes {
     DEFAULT = "default",
     DESTRUCTIVE = "destructive",
     OUTLINE ="outline",
@@ -21,6 +21,7 @@ function ButtonComponent({className, text, variant, onClick}: ButtonComponentPro
 }
 
 interface ButtonProps {
+    variant?: VariantTypes;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -42,6 +43,10 @@ export function ButtonRegister(props: ButtonProps) {
         text: "Register",
         onClick: props.onClick,
     };
+    if (props.variant != undefined) {
+        button.variant = props.variant;
+        button.className = "p-5 w-full bg-blue-900 hover:bg-blue-950 m-2";
+    }
 
     return (<ButtonComponent variant={button.variant} className={button.className} text={button.text} onClick={button.onClick}/>);
 }
