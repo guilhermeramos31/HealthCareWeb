@@ -1,8 +1,6 @@
 ﻿"use client";
 
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {InputContent, InputEmail, InputName, InputPassword, InputPhoneNumber, InputUsername} from "@/components/form";
-import {ButtonRegister, VariantTypes} from "@/components/button";
 import * as React from "react";
 import {ChangeEventHandler, useEffect, useState} from "react";
 import {RegisterRequest, Role, Status} from "@/api/interfaces/register";
@@ -16,6 +14,10 @@ import {
 	SelectValue
 } from "@/components/ui/select";
 import {Label} from "@/components/ui/label";
+import {inputs} from "@/app/auth/register/inputs";
+import LabelInput, {InputContent} from "@/components/form";
+import {ButtonContent, MyButton} from "@/components/button";
+import {buttons} from "@/app/auth/register/buttons";
 
 export default function Register() {
 	const [isMounted, setIsMounted] = useState(false);
@@ -64,6 +66,8 @@ export default function Register() {
 		await login(formValues);
 	};
 
+	let iteratorInput = 0;
+	let iteratorButton = 0;
 	return (
 		<div className={"flex justify-end items-center min-h-screen bg-blue-400"}>
 			<Card className="w-[400px] h-[800px] pt-[5rem] m-[50px]">
@@ -71,21 +75,13 @@ export default function Register() {
 					<CardTitle className={"flex justify-center text-blue-950"}>{"Welcome to Healthcare"}</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<InputContent className={"grid items-center my-2"}>
-						<InputUsername onChange={handleInputChange}/>
-					</InputContent>
-					<InputContent className={"grid items-center my-2"}>
-						<InputName onChange={handleInputChange}/>
-					</InputContent>
-					<InputContent className={"grid items-center my-2"}>
-						<InputEmail onChange={handleInputChange}/>
-					</InputContent>
-					<InputContent className={"grid items-center my-2"}>
-						<InputPhoneNumber onChange={handleInputChange}/>
-					</InputContent>
-					<InputContent className={"grid items-center my-2"}>
-						<InputPassword onChange={handleInputChange}/>
-					</InputContent>
+					{
+						inputs.map((input) => (
+							<InputContent key={iteratorInput++} className={"grid items-center my-2"}>
+								<LabelInput {...input} onChange={handleInputChange}/>
+							</InputContent>
+						))
+					}
 					<Label className={"text-blue-950"}>Specialization</Label>
 					<Select>
 						<SelectTrigger className="w-[180px]">
@@ -100,7 +96,13 @@ export default function Register() {
 					</Select>
 				</CardContent>
 				<CardFooter className="flex flex-col space-y-1.5">
-					<ButtonRegister variant={VariantTypes.DEFAULT} onClick={loginHandleClick}/>
+					{
+						buttons.map((button) => (
+							<ButtonContent key={iteratorButton++} className={"w-full"}>
+								<MyButton {...button} onClick={loginHandleClick}/>
+							</ButtonContent>
+						))
+					}
 				</CardFooter>
 			</Card>
 		</div>
