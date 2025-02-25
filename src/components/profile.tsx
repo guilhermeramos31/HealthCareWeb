@@ -57,7 +57,6 @@ export function Profile(props: ProfileProps) {
                 <ProfileInfo {...props.infos.name} />
                 <ProfileInfo {...props.infos.email} />
             </ProfileContent>
-            <ChevronsUpDown className={props.chevronsUpDown?.className} />
         </>
     );
 }

@@ -31,6 +31,12 @@ export interface DropdownMenuContent {
 
 export interface DropdownMenuLabel {
     className: string;
+    label:{
+        className: string,
+    }
+    div:{
+        className: string;
+    }
 }
 
 export interface DropdownMenuItems {
@@ -138,7 +144,13 @@ export const sidebar: Sidebar = {
                 side: undefined
             },
             menuLabel: {
-                className: "p-0 font-normal"
+                className: "flex flex-col p-0 font-normal",
+                label:{
+                    className: "ml-1 text-sm"
+                },
+                div: {
+                    className: "flex flex-grow gap-2",
+                }
             },
             menuItems: {
                 setting: {
@@ -186,25 +198,25 @@ export const sidebar: Sidebar = {
                 }
             },
             minimal: {
-                className: "grid flex-1 text-left text-sm leading-tight",
+                className: "text-sm leading-tight size-8 rounded-lg",
                 avatar: {
                     src: "/avatars/01.png",
                     alt: "Avatar",
                     fallback: {
                         className: "bg-blue-900 text-white",
-                        text: ""
+                        text: "WG"
                     }
                 },
                 infoContent:{
-                    className: "flex flex-col gap-0.5 leading-none"
+                    className: "flex flex-col text-sm leading-tight"
                 },
                 infos: {
                     name: {
-                        text: "",
+                        text: "Wagner",
                         className: "font-semibold"
                     },
                     email: {
-                        text: "",
+                        text: "guilherme@exemple.com",
                         className: "text-xs"
                     }
                 }
