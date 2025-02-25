@@ -18,6 +18,7 @@ import {inputs} from "@/app/auth/register/inputs";
 import LabelInput, {InputContent} from "@/components/form";
 import {ButtonContent, MyButton} from "@/components/button";
 import {buttons} from "@/app/auth/register/buttons";
+import {PageContent} from "@/components/page";
 
 export default function Register() {
 	const [isMounted, setIsMounted] = useState(false);
@@ -66,10 +67,8 @@ export default function Register() {
 		await login(formValues);
 	};
 
-	let iteratorInput = 0;
-	let iteratorButton = 0;
 	return (
-		<div className={"flex justify-end items-center min-h-screen bg-blue-400"}>
+		<PageContent className={"flex justify-end items-center min-h-screen bg-blue-400"}>
 			<Card className="w-[400px] h-[800px] pt-[5rem] m-[50px]">
 				<CardHeader>
 					<CardTitle className={"flex justify-center text-blue-950"}>{"Welcome to Healthcare"}</CardTitle>
@@ -77,7 +76,7 @@ export default function Register() {
 				<CardContent>
 					{
 						inputs.map((input) => (
-							<InputContent key={iteratorInput++} className={"grid items-center my-2"}>
+							<InputContent key={input.id} className={"grid items-center my-2"}>
 								<LabelInput {...input} onChange={handleInputChange}/>
 							</InputContent>
 						))
@@ -98,13 +97,13 @@ export default function Register() {
 				<CardFooter className="flex flex-col space-y-1.5">
 					{
 						buttons.map((button) => (
-							<ButtonContent key={iteratorButton++} className={"w-full"}>
+							<ButtonContent key={button.text} className={"w-full"}>
 								<MyButton {...button} onClick={loginHandleClick}/>
 							</ButtonContent>
 						))
 					}
 				</CardFooter>
 			</Card>
-		</div>
+		</PageContent>
 	);
 }

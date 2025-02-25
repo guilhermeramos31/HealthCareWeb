@@ -10,7 +10,9 @@ export async function login({email, password}:LoginRequest){
             "password": password
         });
         if (response.data) {
-            sessionStorage.setItem("accessToken", response.data.accessToken);
+            sessionStorage.setItem("access_token", response.data.accessToken);
+            sessionStorage.setItem("user_name", response.data.employee.name);
+            sessionStorage.setItem("user_email", response.data.employee.email);
 
             setCookie("refresh_token", response.data.refreshToken, {
                 maxAge: 60 * 60 * 24,
@@ -27,9 +29,9 @@ export async function login({email, password}:LoginRequest){
     }
 }
 
-export async function register({email,password,status,phoneNumber,role,name,username,observations}:RegisterRequest){
-    try{
-        const response = await api.post("/Employee/Register",{
+export async function register({email,password,status,phoneNumber,role,name,username,observations}:RegisterRequest) {
+    try {
+        const response = await api.post("/Employee/Register", {
             "username": username,
             "email": email,
             "password": password,
@@ -37,11 +39,11 @@ export async function register({email,password,status,phoneNumber,role,name,user
             "phoneNumber": phoneNumber,
             "role": role,
             "name": name,
-            "observations":observations
+            "observations": observations
         });
 
         return response.data;
-    }catch(error){
+    } catch (error) {
         return Promise.reject(error);
     }
 }

@@ -10,6 +10,7 @@ import {inputs} from "@/app/auth/login/inputs";
 import LabelInput, { InputContent} from "@/components/form";
 import {buttons} from "@/app/auth/login/buttons";
 import {ButtonContent, MyButton} from "@/components/button";
+import {PageContent} from "@/components/page";
 
 export default function Login() {
 	const [isMounted, setIsMounted] = useState(false);
@@ -35,6 +36,7 @@ export default function Login() {
 	const loginHandleClick = async (event: React.MouseEvent) => {
 		event.preventDefault();
 		await login(formValues);
+		router.push("/my-work");
 	};
 
 	const registerHandleClick = async (event: React.MouseEvent) => {
@@ -59,10 +61,8 @@ export default function Login() {
 		return onClick;
 	};
 
-	let iteratorInput = 0;
-	let iteratorButton = 0;
 	return  (
-		<div className="flex justify-end items-center min-h-screen bg-blue-400">
+		<PageContent className="flex justify-end items-center min-h-screen bg-blue-400">
 			<Card className="w-[400px] h-[800px] pt-[5rem] m-[50px]">
 				<CardHeader>
 					<CardTitle className={"flex justify-center text-blue-950"}>{"Welcome to Healthcare"}</CardTitle>
@@ -70,7 +70,7 @@ export default function Login() {
 				<CardContent>
 					{
 						inputs.map((input)=>(
-							<InputContent key={iteratorInput++} className={"grid items-center my-2"}>
+							<InputContent key={input.id} className={"grid items-center my-2"}>
 								<LabelInput {...input} onChange={handleInputChange}/>
 							</InputContent>
 						))
@@ -79,12 +79,13 @@ export default function Login() {
 				<CardFooter className="flex flex-col space-y-1.5">
 					{
 						buttons.map((button)=>(
-							<ButtonContent key={iteratorButton++} className={"w-full"}>
+							<ButtonContent key={button.text} className={"w-full"}>
 								<MyButton {...button} onClick={buttonTypeVerify(button.text)} />
 							</ButtonContent>
 						))
 					}
 				</CardFooter>
 			</Card>
-		</div>);
+		</PageContent>
+	);
 }

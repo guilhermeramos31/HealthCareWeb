@@ -1,7 +1,5 @@
 import React from "react";
 import './global.css';
-import RecordSidebar from "@/app/records/page";
-import {SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 
 export const metadata = {
 	title: "Next.js",
