@@ -1,4 +1,4 @@
-﻿import { BookUser, ChartNoAxesCombined, LucideIcon, Settings, LogOut, ChevronsUpDown } from "lucide-react";
+﻿import { BookUser, ChartNoAxesCombined, LucideIcon, Settings, LogOut } from "lucide-react";
 import React from "react";
 
 export interface SidebarMenuItem {
@@ -138,7 +138,7 @@ export const sidebar: Sidebar = {
                 className: "data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
             },
             menuContent: {
-                className: "w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg",
+                className: "w-[--radix-dropdown-menu-trigger-width] min-w-60 rounded-lg",
                 align: "end",
                 sideOffset: 4,
                 side: undefined
@@ -173,11 +173,11 @@ export const sidebar: Sidebar = {
             default: {
                 className: "text-sm leading-tight size-8 rounded-lg",
                 avatar: {
-                    src: "/avatars/01.png",
-                    alt: "Avatar",
+                    src: "",
+                    alt: "",
                     fallback: {
                         className: "bg-blue-900 text-white",
-                        text: "WG"
+                        text: ""
                     }
                 },
                 infoContent:{
@@ -185,11 +185,11 @@ export const sidebar: Sidebar = {
                 },
                 infos: {
                     name: {
-                        text: "Wagner",
+                        text: "",
                         className: "font-semibold"
                     },
                     email: {
-                        text: "guilherme@exemple.com",
+                        text: "",
                         className: "text-xs"
                     }
                 },
@@ -200,11 +200,11 @@ export const sidebar: Sidebar = {
             minimal: {
                 className: "text-sm leading-tight size-8 rounded-lg",
                 avatar: {
-                    src: "/avatars/01.png",
-                    alt: "Avatar",
+                    src: "",
+                    alt: "",
                     fallback: {
                         className: "bg-blue-900 text-white",
-                        text: "WG"
+                        text: ""
                     }
                 },
                 infoContent:{
@@ -212,11 +212,11 @@ export const sidebar: Sidebar = {
                 },
                 infos: {
                     name: {
-                        text: "Wagner",
+                        text: "",
                         className: "font-semibold"
                     },
                     email: {
-                        text: "guilherme@exemple.com",
+                        text: "",
                         className: "text-xs"
                     }
                 }

@@ -9,10 +9,12 @@ export enum VariantTypes {
     GHOST = "ghost",
     LINK ="link",
 }
+
+type variant = "default" | "secondary" | "ghost" | "outline" | "destructive" | "link" | null | undefined;
 export interface ButtonComponentProps {
     text?: string,
     className?: string,
-    variant: VariantTypes | null | undefined,
+    variant: variant,
     onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 

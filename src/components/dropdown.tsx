@@ -5,6 +5,7 @@ interface DropdownProps {
     children?: React.ReactNode;
     className?: string;
     text?: string;
+    onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export function DropdownContent({...props}){
