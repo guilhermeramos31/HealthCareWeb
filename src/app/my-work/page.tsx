@@ -58,58 +58,60 @@ export default function RecordSidebar() {
 
     return (
         <PageContent>
-            <Sidebar collapsible="icon" className={"w-auto"}>
-                <SidebarContent>
-                    <SidebarGroup>
-                        <SidebarGroupContent>
-                            <SidebarMenu>
-                                {sidebar.menu.items.map((item) => (
-                                    <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild>
-                                            <ItemContent href={item.url}>
-                                                <Item {...item}/>
-                                            </ItemContent>
+            <PageContent>
+                <Sidebar collapsible="icon" className={"w-auto"}>
+                    <SidebarContent>
+                        <SidebarGroup>
+                            <SidebarGroupContent>
+                                <SidebarMenu>
+                                    {sidebar.menu.items.map((item) => (
+                                        <SidebarMenuItem key={item.title}>
+                                            <SidebarMenuButton asChild>
+                                                <ItemContent href={item.url}>
+                                                    <Item {...item}/>
+                                                </ItemContent>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    ))}
+                                </SidebarMenu>
+                            </SidebarGroupContent>
+                        </SidebarGroup>
+                    </SidebarContent>
+                    <SidebarFooter>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild className={"w-auto"}>
+                                        <SidebarMenuButton {...sidebar.footer.dropdown.sideBarMenuButton}>
+                                            <Profile {...sidebar.footer.profile.default}/>
+                                            <ChevronsUpDown {...sidebar.footer.profile.default.chevronsUpDown}/>
                                         </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                ))}
-                            </SidebarMenu>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-                </SidebarContent>
-                <SidebarFooter>
-                    <SidebarMenu>
-                        <SidebarMenuItem>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild className={"w-auto"}>
-                                    <SidebarMenuButton {...sidebar.footer.dropdown.sideBarMenuButton}>
-                                        <Profile {...sidebar.footer.profile.default}/>
-                                        <ChevronsUpDown {...sidebar.footer.profile.default.chevronsUpDown}/>
-                                    </SidebarMenuButton>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    {...sidebar.footer.dropdown.menuContent}
-                                    side={isMobile ? Side.BOTTOM : Side.RIGHT}>
-                                    <DropdownMenuLabel className={sidebar.footer.dropdown.menuLabel.className}>
-                                        <div {...sidebar.footer.dropdown.menuLabel.div}>
-                                            <Profile {...sidebar.footer.profile.minimal}/>
-                                        </div>
-                                    </DropdownMenuLabel>
-                                    <DropdownMenuSeparator/>
-                                    <DropdownMenuGroup>
-                                        <DropdownMenuItem text={sidebar.footer.dropdown.menuItems.setting.text}>
-                                            <Settings/>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent
+                                        {...sidebar.footer.dropdown.menuContent}
+                                        side={isMobile ? Side.BOTTOM : Side.RIGHT}>
+                                        <DropdownMenuLabel className={sidebar.footer.dropdown.menuLabel.className}>
+                                            <div {...sidebar.footer.dropdown.menuLabel.div}>
+                                                <Profile {...sidebar.footer.profile.minimal}/>
+                                            </div>
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator/>
+                                        <DropdownMenuGroup>
+                                            <DropdownMenuItem text={sidebar.footer.dropdown.menuItems.setting.text}>
+                                                <Settings/>
+                                            </DropdownMenuItem>
+                                        </DropdownMenuGroup>
+                                        <DropdownMenuSeparator/>
+                                        <DropdownMenuItem text={sidebar.footer.dropdown.menuItems.logout.text} className={sidebar.footer.dropdown.menuItems.logout.className}>
+                                            <LogOut/>
                                         </DropdownMenuItem>
-                                    </DropdownMenuGroup>
-                                    <DropdownMenuSeparator/>
-                                    <DropdownMenuItem text={sidebar.footer.dropdown.menuItems.logout.text} className={sidebar.footer.dropdown.menuItems.logout.className}>
-                                        <LogOut/>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarFooter>
-            </Sidebar>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarFooter>
+                </Sidebar>
+            </PageContent>
         </PageContent>
     );
 }
