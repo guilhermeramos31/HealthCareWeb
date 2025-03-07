@@ -76,7 +76,7 @@ export default function Register() {
 				<CardContent>
 					{
 						inputs.map((input) => (
-							<InputContent key={input.id} className={"grid items-center my-2"}>
+								<InputContent key={input.id} className={"grid items-center my-2"}>
 								<LabelInput {...input} onChange={handleInputChange}/>
 							</InputContent>
 						))

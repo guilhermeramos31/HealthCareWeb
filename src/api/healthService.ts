@@ -2,6 +2,7 @@
 import {LoginRequest} from "@/api/interfaces/login";
 import {setCookie} from "cookies-next";
 import {RegisterRequest} from "@/api/interfaces/register";
+import {PatientRequest} from "@/api/interfaces/patient";
 
 export async function login({email, password}:LoginRequest){
     try {
@@ -10,6 +11,10 @@ export async function login({email, password}:LoginRequest){
             "password": password
         });
         if (response.data) {
+            if (sessionStorage.length > 0){
+                sessionStorage.clear();
+            }
+            console.log(response.data.accessToken);
             sessionStorage.setItem("access_token", response.data.accessToken);
             sessionStorage.setItem("user_name", response.data.employee.name);
             sessionStorage.setItem("user_email", response.data.employee.email);
@@ -40,6 +45,66 @@ export async function register({email,password,status,phoneNumber,role,name,user
             "role": role,
             "name": name,
             "observations": observations
+        });
+
+        return response.data;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export async function searchPatient(search: string){
+    try {
+        const response = await api.get(`/Patient/${search}`,{
+            headers: {
+                Authorization: `${"Bearer ".concat(sessionStorage.getItem("access_token") ?? "")}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export async function patients(pageNumber: number = 1, pageSize: number = 10){
+    try {
+        const response = await api.get(`/Patient/All${(pageNumber !== null && pageSize !== null) ? `?pageNumber=${pageNumber}&pageSize=${pageSize}`: ""}`,{
+            headers: {
+                Authorization: `${"Bearer ".concat(sessionStorage.getItem("access_token") ?? "")}`,
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export async function createPatient( {name, cpf, rg, cns, dateOfBirth, nationality, maritalStatus, address}: PatientRequest ){
+    try {
+        const response = await api.post('/Patient/Create',{
+            "Name": name,
+            "Cpf": cpf,
+            "Cns": cns,
+            "Rg": rg,
+            "Address": {
+                "Street": address.street,
+                "City": address.city,
+                "State": address.state,
+                "Complement": address.complement,
+                "ZipCode": address.zipcode,
+                "Neighborhood": address.neighborhood,
+                "Landmark": address.landmark,
+                "AddressType": address.addressType,
+                "Number": address.number
+            },
+            "DateOfBirth": dateOfBirth,
+            "Nationality": nationality,
+            "MaritalStatus": maritalStatus
+        },{
+            headers: {
+                Authorization: `${"Bearer ".concat(sessionStorage.getItem("access_token") ?? "")}`,
+            },
         });
 
         return response.data;

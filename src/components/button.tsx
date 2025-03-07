@@ -1,5 +1,6 @@
 ﻿import {Button} from "@/components/ui/button";
 import * as React from "react";
+import {ReactNode} from "react";
 
 export enum VariantTypes {
     DEFAULT = "default",
@@ -15,12 +16,13 @@ export interface ButtonComponentProps {
     text?: string,
     className?: string,
     variant: variant,
-    onClick?: React.MouseEventHandler<HTMLButtonElement>
+    onClick?: React.MouseEventHandler<HTMLButtonElement>,
+    children?: ReactNode,
 }
 
 export function ButtonContent({...props}) {
     return (<div className={props.className} {...props}/>);
 }
-export function MyButton({className, text, variant, onClick}: ButtonComponentProps) {
-    return <Button variant={variant} className={className} onClick={onClick}>{text}</Button>;
+export function MyButton({className, text, variant, onClick, children}: ButtonComponentProps) {
+    return <Button variant={variant} className={className} onClick={onClick} >{children}{text}</Button>;
 }
