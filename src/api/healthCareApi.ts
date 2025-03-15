@@ -10,6 +10,8 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${sessionStorage.getItem("access_token")}`;
+
     return config;
 }, (error) => {
     return Promise.reject(error);

@@ -1,49 +1,58 @@
 ﻿"use client";
 
-import { PageContent } from "@/components/page";
-import {Eye, Filter, Plus, Search} from "lucide-react";
-import { MyButton } from "@/components/button";
-import { Card } from "@/components/ui/card";
-import React, {useEffect, useState} from "react";
+import {PageContent} from "@/components/page";
+import {Eye, Filter, Plus} from "lucide-react";
+import {MyButton} from "@/components/button";
+import {Card} from "@/components/ui/card";
+import React, {useCallback, useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {PatientResponse} from "@/api/interfaces/patient";
-import {patients, searchPatient} from "@/api/healthService";
+import {patients} from "@/api/healthService";
 import {AddPatientModal} from "@/app/my-work/patients/new-patient";
+import Link from "next/link";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious
+} from "@/components/ui/pagination";
+import {useMounted} from "@/hooks/useMounted";
+import {FilterComponent} from "@/app/my-work/patients/filterComponent";
 
 export default function Page() {
     const [searchTerm, setSearchTerm] = useState("");
-    const [isMounted, setIsMounted] = useState(false);
+    const mounted = useMounted();
     const [patientArray, setPatientArray] = useState<PatientResponse[]>([]);
+    const [page, setPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
-        const getPatients = async () => {
-            try {
-                let data: PatientResponse[] = [];
-
-                if (searchTerm) {
-                    const patient = await searchPatient(searchTerm);
-                    if (patient) {
-                        data = patient ?? [];
-                    }
-                } else {
-                    const patientsPagination = await patients();
-                    if (patientsPagination) {
-                        data = patientsPagination?.patients ?? [];
-                    }
-                }
-
-                setPatientArray(data);
-            } catch (error) {
-                console.error("Error searching for patients:", error);
+    const getPatients = useCallback(async () => {
+        try {
+            let data: PatientResponse[] = [];
+            const patientsPagination = await patients(page.toString(),"10",searchTerm);
+            if (patientsPagination) {
+                data = patientsPagination ?? [];
             }
-        };
-        getPatients();
 
-        setIsMounted(true);
-    }, [searchTerm]);
-    if (!isMounted) return null;
+            setPatientArray(data);
+        } catch (error) {
+            console.error("Error searching for patients:", error);
+        }
+    },[searchTerm, page]);
+
+    useEffect(() => {
+        getPatients().then();
+
+        const pageHeader = Number.parseInt(sessionStorage.getItem("total_page")??"1");
+        setTotalPage(Math.ceil(pageHeader / 10));
+
+    },[searchTerm, page, getPatients]);
+
+    if (!mounted) return null;
 
     return (
         <PageContent className="flex flex-col items-center ml-auto mr-auto w-6/12 p-6">
@@ -60,23 +69,14 @@ export default function Page() {
             </div>
             <Card className="w-full p-4">
                 <div className="flex flex-grow gap-4">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <input
-                            type="search"
-                            placeholder="Search for patients..."
-                            className="w-full rounded-lg border bg-background pl-8 pr-4 py-2 text-sm"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
+                    <FilterComponent setSearch={setSearchTerm} />
                     <Button variant={"default"} className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium bg-white text-black hover:bg-blue-900/90 hover:text-white self-start">
                         <Filter className="h-4 w-4" />
                         Filter
                     </Button>
                 </div>
             </Card>
-            <Card className="w-full p-4 mt-5">
+            <Card className="w-full min-h-[560px] h-auto p-4 mt-5">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -98,8 +98,9 @@ export default function Page() {
                                         size="sm"
                                         className={"bg-blue-600/90 text-white hover:bg-blue-900/90 hover:text-white"}
                                     >
-                                        <Eye className="mr-2 h-4 w-4" />
-                                        View
+                                        <Link className={"grid grid-cols-2 gap-1"} href={`/my-work/patients/${patient.id}`}>
+                                            <Eye className="mr-2 h-4 w-4" /> View
+                                        </Link>
                                     </Button>
                                 </TableCell>
                             </TableRow>
@@ -107,7 +108,33 @@ export default function Page() {
                     </TableBody>
                 </Table>
             </Card>
+            <Card className={"mt-5"}>
+                <Pagination className={"cursor-pointer select-none"}>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious onClick={() => setPage(page <= 1 ? 1 : page -1)} />
+                        </PaginationItem>
+                        {Array.from({ length: 3 }, (_, i) => {
+                            return Math.max(1, Math.min(page - 1, totalPage - 2)) + i;
+                        }).map((pageNumber) =>
+                                pageNumber <= totalPage && (
+                                    <PaginationItem key={pageNumber}>
+                                        <PaginationLink
+                                            onClick={() => setPage(pageNumber)}
+                                            isActive={pageNumber === page}>
+                                            {pageNumber}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                )
+                        )}
+                        <PaginationItem>
+                            <PaginationNext onClick={() => { if (page < totalPage) setPage(page + 1);}}/>
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            </Card>
             <AddPatientModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
         </PageContent>
     );
 }
+

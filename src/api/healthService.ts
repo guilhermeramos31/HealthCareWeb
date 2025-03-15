@@ -66,14 +66,19 @@ export async function searchPatient(search: string){
     }
 }
 
-export async function patients(pageNumber: number = 1, pageSize: number = 10){
+export async function patients(pageNumber: string ="1", pageSize: string = "10", search?: string){
     try {
-        const response = await api.get(`/Patient/All${(pageNumber !== null && pageSize !== null) ? `?pageNumber=${pageNumber}&pageSize=${pageSize}`: ""}`,{
-            headers: {
-                Authorization: `${"Bearer ".concat(sessionStorage.getItem("access_token") ?? "")}`,
-            },
+        const params = new URLSearchParams({
+            pageNumber: pageNumber,
+            pageSize: pageSize,
         });
 
+        if (search) {
+            params.append("search", search);
+        }
+        const response = await api.get(`/Patient/All?${params}`);
+        console.log(response.headers);
+        sessionStorage.setItem("total_page", response.headers["x-total-count"] || "0");
         return response.data;
     } catch (error) {
         return Promise.reject(error);
